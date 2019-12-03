@@ -223,6 +223,7 @@ struct schedulerResult process_C_SCAN_request(struct schedulerInput request){
 
 	int size = request.requests.elements;
 	int* sequence = request.requests.data;
+	int direction = request.direction;
 	results.requests.elements = size;
 	results.requests.data = (int*)malloc(sizeof(int) * size);
 
@@ -233,6 +234,12 @@ struct schedulerResult process_C_SCAN_request(struct schedulerInput request){
 	for (int j = 0; j < size; j++)
 	{
 		done[j] = 0;
+	}
+
+	if (direction == -1) {
+		results.totalHeadMovement += cur_pos;
+		cur_pos = 0;
+		direction = 1;
 	}
 
 	while (finished != size)
